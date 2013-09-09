@@ -7,15 +7,21 @@ import feedparser
 def index():
 	r = ''
 
+	feeds = []
 	for feed in get_feeds():
 		d = feedparser.parse(feed['url'])
-		r += '<p>%s</p>' % d.feed.title
-		for entry in d.entries:
-			r += '<li><a href="%s">%s</a></li>' % (entry.link, entry.title)
-		r += '</ul>'
+		feed['title'] = d.feed['title']
+		feed['entries'] = d.entries
+		feeds.append(feed)
 
-	return r
-	return render_template('listing.html')
+	return render_template('listing.html', feeds=feeds)
+
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+	if request.method == 'GET':
+		return render_template('update.html')
+	elif request.method == 'POST':
+		return 'will update...'
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():

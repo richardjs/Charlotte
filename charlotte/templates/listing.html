@@ -1,3 +1,11 @@
 {% extends "layout.html" %}
 {% block body %}
+{% for feed in feeds %}
+	<p>{{feed.title}}</p>
+	<ul>
+		{% for entry in feed.entries %}
+			<li><a href="{{entry.link}}">{{entry.title}}</a></lie>
+		{% endfor %}
+	</ul>
+{% endfor %}
 {% endblock %}
