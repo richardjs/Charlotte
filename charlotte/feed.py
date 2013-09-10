@@ -5,9 +5,12 @@ from charlotte.database import (
 import feedparser
 
 def update_feed(id=None, feed=None):
+	assert id is not None or feed is not None
 	if id is not None:
 		feed = get_feed(id)
-	
+	else:
+		id = feed['id']
+
 	d = feedparser.parse(feed['url'])
 
 	if not feed['title']:

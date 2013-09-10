@@ -34,8 +34,7 @@ def get_feeds():
 	db = get_db()
 	cursor = db.cursor()
 	cursor.execute('select * from feeds')
-	for row in cursor:
-		yield row
+	return cursor.fetchall()
 
 def get_feed(id):
 	db = get_db()
@@ -52,6 +51,7 @@ def add_feed(url):
 
 def add_feed_title(id, title):
 	db = get_db()
+	print id, title
 	db.cursor().execute(
 		'update feeds set title=? where id=?', (title, id)
 	)
