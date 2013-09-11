@@ -65,6 +65,14 @@ def have_entry(guid):
 		return False
 	return True
 
+def get_entries(feedid):
+	db = get_db()
+	cursor = db.cursor()
+	cursor.execute(
+		'select * from entries where feedid=?', (feedid,)
+	)
+	return cursor.fetchall()
+
 def add_entry(feedid, guid, url, title):
 	db = get_db()
 	db.cursor().execute(

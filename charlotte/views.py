@@ -1,20 +1,16 @@
 from flask import render_template, request
 from charlotte import app
-from charlotte.database import add_feed, get_feeds
+from charlotte.database import add_feed, get_feeds, get_entries
 from charlotte.feed import update_feed, update_feeds
 import feedparser
 
 @app.route('/')
 def index():
-	r = ''
-
 	feeds = []
 	for feed in get_feeds():
-		d = feedparser.parse(feed['url'])
-		feed['title'] = d.feed['title']
-		feed['entries'] = d.entries
+		feed['entries'] = get_entries(feed['id'])
 		feeds.append(feed)
-
+	
 	return render_template('listing.html', feeds=feeds)
 
 @app.route('/update', methods=['GET', 'POST'])

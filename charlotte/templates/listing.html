@@ -4,7 +4,7 @@
 	<p>{{feed.title}}</p>
 	<ul>
 		{% for entry in feed.entries %}
-			<li><a href="{{entry.link}}">{{entry.title}}</a></lie>
+			<li><a href="{{entry.url}}">{{entry.title}}</a></lie>
 		{% endfor %}
 	</ul>
 {% endfor %}
