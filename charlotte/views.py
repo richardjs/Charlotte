@@ -8,6 +8,8 @@ import feedparser
 def index():
 	feeds = []
 	for feed in get_feeds():
+		if not feed['title']:
+			feed['title'] = feed['url'] + ' [needs update]'
 		feed['entries'] = get_entries(feed['id'])
 		feeds.append(feed)
 	
