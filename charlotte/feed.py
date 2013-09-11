@@ -15,10 +15,10 @@ def update_feed(id=None, feed=None):
 
 	if not feed['title']:
 		add_feed_title(id, d.feed.title)
-		
+	
 	for entry in d.entries:
-		if not have_entry(entry.id):
-			add_entry(feed['id'], entry.id, entry.link, entry.title)
+		if not have_entry(entry.link, entry.title):
+			add_entry(feed['id'], entry.link, entry.title)
 
 def update_feeds():
 	for feed in get_feeds():

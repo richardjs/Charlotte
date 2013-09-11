@@ -57,14 +57,6 @@ def add_feed_title(id, title):
 	)
 	db.commit()
 
-def have_entry(guid):
-	db = get_db()
-	cursor = db.cursor()
-	cursor.execute('select * from entries where guid=?', (guid,))
-	if cursor.fetchone() is None:
-		return False
-	return True
-
 def get_entries(feedid):
 	db = get_db()
 	cursor = db.cursor()
@@ -73,10 +65,21 @@ def get_entries(feedid):
 	)
 	return cursor.fetchall()
 
-def add_entry(feedid, guid, url, title):
+def have_entry(url, title):
+	db = get_db()
+	cursor = db.cursor()
+	cursor.execute(
+		'select * from entries where url=? and title=?',
+		(url, title)
+	)
+	if cursor.fetchone() is None:
+		return False
+	return True
+
+def add_entry(feedid, url, title):
 	db = get_db()
 	db.cursor().execute(
-		'insert into entries(feedid, guid, url, title) values(?, ?, ?, ?)',
-		(feedid, guid, url, title)
+		'insert into entries(feedid, url, title) values(?, ?, ?)',
+		(feedid, url, title)
 	)
 	db.commit()
