@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="post">
+	<select name="id">
+		{% for feed in feeds %}
+		<option value="{{feed.id}}">
+			{{feed.title}}
+		</option>
+		{% endfor %}
+	</select>
+	<input type="text" name="name" placeholder="New name">
+	<input type="submit" value="Submit">
+</form>
+{% endblock %}

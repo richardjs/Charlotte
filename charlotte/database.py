@@ -52,9 +52,16 @@ def add_feed(url):
 
 def add_feed_title(id, title):
 	db = get_db()
-	print id, title
 	db.cursor().execute(
 		'update feeds set title=? where id=?', (title, id)
+	)
+	db.commit()
+
+def rename_feed(id, title):
+	db = get_db()
+	db.cursor().execute(
+		'update feeds set displayname=? where id=?',
+		(title, id)
 	)
 	db.commit()
 

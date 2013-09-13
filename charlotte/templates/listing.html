@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 {% block body %}
 {% for feed in feeds %}
-	<p>{{feed.title}}</p>
+	<p>
+		{% if feed.displayname %}
+			{{feed.displayname}}
+		{% else %}
+			{{feed.title}}
+		{% endif %}
+	</p>
 	<ul>
 		{% for entry in feed.entries %}
-			<li><a href="{{entry.url}}">{{entry.title}}</a></lie>
+			<li><a href="{{entry.url}}">{{entry.title}}</a></li>
 		{% endfor %}
 	</ul>
 {% endfor %}
