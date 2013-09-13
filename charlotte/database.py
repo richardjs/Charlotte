@@ -1,7 +1,9 @@
-from flask import g
-from charlotte import app
 from os.path import join
 import sqlite3
+
+from flask import g
+
+from charlotte import app
 
 DATABASE = join(app.instance_path, 'dataT.db')
 
