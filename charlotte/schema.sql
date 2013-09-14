@@ -3,14 +3,14 @@ create table feeds(
 	id integer primary key asc,
 	url text not null,
 	title text,
-	displayname text
+	display_name text
 );
 
 drop table if exists entries;
 create table entries(
 	id integer primary key asc,
-	feedid references feeds(id),
-	--guid text not null,
+	feed_id references feeds(id),
 	url text not null,
-	title text not null
+	title text not null,
+	retrieved_timestamp text default CURRENT_TIMESTAMP
 );

@@ -62,16 +62,20 @@ def add_feed_title(id, title):
 def rename_feed(id, title):
 	db = get_db()
 	db.cursor().execute(
-		'update feeds set displayname=? where id=?',
+		'update feeds set display_name=? where id=?',
 		(title, id)
 	)
 	db.commit()
 
-def get_entries(feedid):
+def get_entries(feed_id):
 	db = get_db()
 	cursor = db.cursor()
-	cursor.execute(
-		'select * from entries where feedid=?', (feedid,)
+	cursor.execute('''
+		select * 
+		from entries
+		where feed_id=? 
+		order by retrieved_timestamp asc, rowid desc''',
+		(feed_id,)
 	)
 	return cursor.fetchall()
 
@@ -86,10 +90,10 @@ def have_entry(url, title):
 		return False
 	return True
 
-def add_entry(feedid, url, title):
+def add_entry(feed_id, url, title):
 	db = get_db()
 	db.cursor().execute(
-		'insert into entries(feedid, url, title) values(?, ?, ?)',
-		(feedid, url, title)
+		'insert into entries(feed_id, url, title) values(?, ?, ?)',
+		(feed_id, url, title)
 	)
 	db.commit()

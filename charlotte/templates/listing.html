@@ -2,8 +2,8 @@
 {% block body %}
 {% for feed in feeds %}
 	<p>
-		{% if feed.displayname %}
-			{{feed.displayname}}
+		{% if feed.display_name %}
+			{{feed.display_name}}
 		{% else %}
 			{{feed.title}}
 		{% endif %}
