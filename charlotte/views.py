@@ -13,7 +13,7 @@ def index():
 		feed['entries'] = database.get_entries(feed['id'])
 		feeds.append(feed)
 	
-	return render_template('listing.html', feeds=feeds)
+	return render_template('list.html', feeds=feeds)
 
 @app.route('/update', methods=['GET', 'POST'])
 def do_update_feeds():
