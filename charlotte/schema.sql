@@ -12,5 +12,6 @@ create table entries(
 	feed_id references feeds(id),
 	url text not null,
 	title text not null,
-	retrieved_timestamp text default CURRENT_TIMESTAMP
+	retrieved_timestamp text default CURRENT_TIMESTAMP,
+	read integer default 0 check(read in (0, 1))
 );

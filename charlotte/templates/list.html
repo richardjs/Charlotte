@@ -10,7 +10,9 @@
 	</p>
 	<ul>
 		{% for entry in feed.entries %}
-			<li><a href="{{entry.url}}">{{entry.title}}</a></li>
+			<li><a href="/read/{{entry.id}}" target="_blank">
+				{{entry.title}}
+			</a></li>
 		{% endfor %}
 	</ul>
 {% endfor %}

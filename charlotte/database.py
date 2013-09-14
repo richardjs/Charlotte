@@ -33,10 +33,21 @@ def init_db():
 			db.cursor().executescript(f.read())
 		db.commit()
 
-def get_feeds():
+def get_feeds(only_unread=False):
 	db = get_db()
 	cursor = db.cursor()
-	cursor.execute('select * from feeds')
+	if not only_unread:
+		cursor.execute('select * from feeds')
+	else:
+		cursor.execute('''
+			select *
+			from feeds
+			where exists(
+				select *
+				from entries
+				where feeds.id=entries.id and entries.read=0
+			)
+		''')
 	return cursor.fetchall()
 
 def get_feed(id):
@@ -70,14 +81,24 @@ def rename_feed(id, title):
 def get_entries(feed_id):
 	db = get_db()
 	cursor = db.cursor()
+	#TODO: eventually "read" will be replaced with "deleted" in this context
 	cursor.execute('''
 		select * 
 		from entries
-		where feed_id=? 
+		where feed_id=? and read=0
 		order by retrieved_timestamp asc, rowid desc''',
 		(feed_id,)
 	)
 	return cursor.fetchall()
+
+def get_entry(id):
+	db = get_db()
+	cursor = db.cursor()
+	cursor.execute(
+		'select * from entries where id=?',
+		(id,)
+	)
+	return cursor.fetchone()
 
 def have_entry(url, title):
 	db = get_db()
@@ -95,5 +116,13 @@ def add_entry(feed_id, url, title):
 	db.cursor().execute(
 		'insert into entries(feed_id, url, title) values(?, ?, ?)',
 		(feed_id, url, title)
+	)
+	db.commit()
+
+def read_entry(id):
+	db = get_db()
+	db.cursor().execute(
+		'update entries set read=1 where id=?',
+		(id,)
 	)
 	db.commit()

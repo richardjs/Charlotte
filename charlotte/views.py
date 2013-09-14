@@ -1,14 +1,14 @@
-from flask import render_template, request
+from flask import render_template, request, redirect
 from charlotte import app
 from charlotte import database
-from charlotte.feed import update_feed, update_feeds, get_feeds
+from charlotte.feed import update_feed, update_feeds
 import feedparser
 
 @app.route('/')
 @app.route('/list')
 def list():
 	feeds = []
-	for feed in database.get_feeds():
+	for feed in database.get_feeds(only_unread=True):
 		if not feed['title']:
 			feed['title'] = feed['url'] + ' [needs update]'
 		feed['entries'] = database.get_entries(feed['id'])
@@ -43,10 +43,16 @@ def add():
 @app.route('/rename', methods=['GET', 'POST'])
 def rename():
 	if request.method == 'GET':
-		feeds = get_feeds()
+		feeds = database.get_feeds()
 		return render_template('rename.html', feeds=feeds)
 	elif request.method == 'POST':
 		database.rename_feed(
 			request.form['id'], request.form['name']
 		)
 		return 'ok'
+
+@app.route('/read/<int:id>')
+def read(id):
+	entry = database.get_entry(id)
+	database.read_entry(id)
+	return redirect(entry['url'])
