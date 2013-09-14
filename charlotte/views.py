@@ -5,7 +5,8 @@ from charlotte.feed import update_feed, update_feeds, get_feeds
 import feedparser
 
 @app.route('/')
-def index():
+@app.route('/list')
+def list():
 	feeds = []
 	for feed in database.get_feeds():
 		if not feed['title']:
