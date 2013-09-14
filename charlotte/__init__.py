@@ -6,7 +6,7 @@ from charlotte.middleware import ReverseProxied
 
 app = Flask('charlotte')
 
-app.wgsi_app = ReverseProxied(app.wsgi_app)
+app.wsgi_app = ReverseProxied(app.wsgi_app)
 
 app.config.from_object('charlotte.default_settings')
 if 'CHARLOTTE_SETTINGS' in os.environ:
