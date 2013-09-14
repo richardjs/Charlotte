@@ -4,8 +4,8 @@
 <h3>Charlotte Web Reader</h3>
 
 <p>
-	<a href="/add">Add</a> |
-	<a href="/update">Update</a>
+	<a href="{{url_for('add')}}">Add</a> |
+	<a href="{{url_for('do_update_feeds')}}">Update</a>
 </p>
 
 {% for feed in feeds %}
@@ -18,7 +18,7 @@
 	</p>
 	<ul>
 		{% for entry in feed.entries %}
-			<li><a href="/read/{{entry.id}}" target="_blank">
+			<li><a href="{{url_for('read', id=entry.id)}}" target="_blank">
 				{{entry.title}}
 			</a></li>
 		{% endfor %}
