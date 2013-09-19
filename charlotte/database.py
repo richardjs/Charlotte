@@ -45,7 +45,8 @@ def get_feeds(only_unread=False):
 			where exists(
 				select *
 				from entries
-				where feeds.id=entries.id and entries.read=0
+				where feeds.id=entries.feed_id and
+				entries.read=0
 			)
 		''')
 	return cursor.fetchall()
